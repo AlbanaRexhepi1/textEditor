@@ -18,3 +18,5 @@ fr_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
 
 window.mainloop()
+
+# TODO: Flexible font style 
