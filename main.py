@@ -4,23 +4,25 @@ from tkinter import font
 from tkinter import colorchooser
 from tkinter import ttk
 
+root = Tk()
+root.title("Simple Text Editor")
+root.geometry("1000x600")
 
-window = tk.Tk()
-window.title("Simple Text Editor")
-window.rowconfigure(0, minsize=800, weight=1)
-window.columnconfigure(1, minsize=800, weight=1)
+global open_status_name 
+open_status_name = False
 
-txt_edit = tk.Text(window)
-fr_buttons = tk.Frame(window, relief=tk.RAISED, bd=2)
-btn_open = tk.Button(fr_buttons, text="Open")
-btn_save = tk.Button(fr_buttons, text="Save As...")
-btn_fonts = tk.Button(fr_buttons, text="Fonts..")
+global selected 
+selected = False
 
-btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
-btn_save.grid(row=1, column=0, sticky="ew", padx=5, pady=10)
-btn_fonts.grid(row=2, column=0, sticky="ew", padx=5)
-
-
+#New file function
+def new_file():
+    my_text.delete("1.0", END)
+    root.title("New File")
+    status_bar.config(text="New File        ")
+    
+    global open_status_name 
+    open_status_name = False
+    
 #Open file function
 def open_file():
     """Open a file for editing."""
