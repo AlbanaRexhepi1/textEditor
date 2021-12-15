@@ -2,11 +2,10 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import font
 from tkinter import colorchooser
-from tkinter import ttk
 
 root = Tk()
 root.title("Simple Text Editor")
-root.geometry("1000x600")
+root.geometry("650x600")
 
 global open_status_name 
 open_status_name = False
@@ -205,7 +204,7 @@ toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
 
 #Crate main frame
-my_frame = Frame(root, width=510, height=275)
+my_frame = Frame(root, width=610, height=375)
 my_frame.pack(pady=10)
 
 my_frame.grid_propagate(False)
@@ -220,11 +219,11 @@ hor_scroll = Scrollbar(my_frame, orient = 'horizontal')
 hor_scroll.pack(side=BOTTOM, fill=X)
 
 #Create Text Box
-my_text = Text(my_frame, width=510, height=275, font=our_font, selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, xscrollcommand=hor_scroll.set, wrap="none")
-# my_text.grid(row=0, column=0)
-# my_text.grid_rowconfigure(0,weight=1)
-# my_text.grid_columnconfigure(0,weight=1)
-my_text.pack()
+my_text = Text(my_frame, font=our_font, selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, xscrollcommand=hor_scroll.set, wrap="none")
+my_text.grid(row=0, column=0)
+my_text.grid_rowconfigure(0,weight=1)
+my_text.grid_columnconfigure(0,weight=1)
+# my_text.pack()
 
 text_scroll.config(command=my_text.yview)
 hor_scroll.config(command=my_text.xview)
@@ -276,7 +275,7 @@ style_label.grid(row=0, column=2, padx=10, sticky=W)
 
 #font families
 my_listbox = Listbox(bottom_frame, selectmode=SINGLE, width=40)
-my_listbox.grid(row=10, column=0, pady= 10)
+my_listbox.grid(row=1, column=0, pady= 10)
 
 font_size_listbox= Listbox(bottom_frame, selectmode=SINGLE, width=20)
 font_size_listbox.grid(row=1, column= 1)
