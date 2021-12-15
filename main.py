@@ -170,14 +170,15 @@ def all_text_color():
     if my_color:
         my_text.config(fg=my_color)
 
+
 #Font size function
 def font_size_chooser(e):
     our_font.config(
-        size=font_size_listbox.get(font_size_listbox.curselection()))
+        size=font_size_menu.get(font_size_menu.cget()))
 
-#Font Style function
+#font style function
 def font_style_chooser(e):
-    style = font_style_listbox.get(font_style_listbox.curselection()).lower()
+    style = font_style_menu.get(font_style_menu.cget("text")).lower()
 
     if style == "bold":
         our_font.config(weight=style)
@@ -192,18 +193,16 @@ def font_style_chooser(e):
     if style == "strike":
         our_font.config(overstrike=1)
 
-#Choosing the font 
+#font chooser function
 def font_chooser(e):
     our_font.config(
-        family=my_listbox.get(my_listbox.curselection()))
-
+        family=font_menu(font_menu.cget("text")))
 
 our_font = font.Font(family="Helvetica", size = "16")
 
 #Create a toolbar Frame
 toolbar_frame = Frame(root)
 toolbar_frame.pack(fill=X)
-
 #Crate main frame
 my_frame = Frame(root, width=510, height=275)
 my_frame.pack(pady=10)
@@ -256,47 +255,36 @@ edit_menu.add_command(label="Redo", command=my_text.edit_redo, accelerator="(Ctr
 #Add Color Menu
 color_menu = Menu(my_menu, tearoff=False)
 my_menu.add_cascade(label="Colors", menu=color_menu)
-color_menu.add_command(label="Selected Text", command=text_color)
+color_menu.add_command(label="Change Selected Text", command=text_color)
 color_menu.add_command(label="All Text", command=all_text_color)
 color_menu.add_command(label="Background", command=bg_color)
 
-#Bottom Frame
-bottom_frame = Frame(root)
-bottom_frame.pack()
+#Add Font Menu
+font_menu = Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="Font", menu=font_menu)
 
-#Add labels
-font_label = Label(bottom_frame, text="Choose Font", font=("Helvetica", 14))
-font_label.grid(row=0, column=0, padx=10, sticky=W)
+#Add Font Size Menu
+font_size_menu = Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="Font Size", menu=font_size_menu)
 
-size_label= Label(bottom_frame, text="Font Size", font=("Helvetica", 14))
-size_label.grid(row=0, column=1, sticky=W)
+#Add Font Style Menu
+font_style_menu = Menu(my_menu, tearoff=False)
+my_menu.add_cascade(label="Font Style", menu=font_style_menu)
 
-style_label = Label(bottom_frame, text="Font Style", font=("Helvetica", 14))
-style_label.grid(row=0, column=2, padx=10, sticky=W)
 
-#font families
-my_listbox = Listbox(bottom_frame, selectmode=SINGLE, width=40)
-my_listbox.grid(row=10, column=0, pady= 10)
-
-font_size_listbox= Listbox(bottom_frame, selectmode=SINGLE, width=20)
-font_size_listbox.grid(row=1, column= 1)
-
-font_style_listbox = Listbox(bottom_frame, selectmode=SINGLE, width=20)
-font_style_listbox.grid(row=1, column=2, padx= 10)
-
-#Add font families to Listbox
+#Add font families 
 for f in font.families():
-    my_listbox.insert('end', f)
+    font_menu.add_command(label=f, command=font_chooser)
 
-#Add Sizes to Size Listbox
+#Add Sizes to Size Menu
 font_sizes = [8, 10, 12, 14, 16, 18, 20, 36, 48]
 for size in font_sizes:
-    font_size_listbox.insert('end', size)
+    font_size_menu.add_command(label=size, command=font_size_chooser)
 
-#Add Styles to Style Listbox
+#Add Styles to Style Menu
 font_styles = ["Regular", "Bold", "Italic", "Bold/Italic", "Underline", "Strike"]
 for style in font_styles:
-    font_style_listbox.insert('end', style)
+    font_style_menu.add_command(label=style, command=font_style_chooser)
 
 
 status_bar = Label(root, text="Ready         ", anchor=E)
@@ -312,9 +300,11 @@ root.bind('<Control-Key-v>', paste_text)
 #Bold button
 bold_button = Button(toolbar_frame, text= "Bold", command=bold_it)
 bold_button.grid(row=0, column=0, sticky=W, padx=5)
+
 #Italics button
 italics_button = Button(toolbar_frame, text= "Italics", command=italics_it)
 italics_button.grid(row=0, column=1, padx=5)
+
 #Undo/Redo buttons
 undo_button = Button(toolbar_frame, text= "Undo", command=my_text.edit_undo)
 undo_button.grid(row=0, column=2, padx=5)
@@ -325,9 +315,8 @@ redo_button.grid(row=0, column=3, padx=5)
 color_text_button = Button(toolbar_frame, text="Text Color", command=text_color)
 color_text_button.grid(row=0, column=4, padx=5)
 
-my_listbox.bind('<ButtonRelease-1>', font_chooser)
-font_size_listbox.bind('<ButtonRelease-1>', font_size_chooser)
-font_style_listbox.bind('<ButtonRelease-1>', font_style_chooser)
-root.mainloop()
+font_menu.bind('<<MenuSelect>>', font_chooser)
+font_size_menu.bind('<<MenuSelect>>', font_size_chooser)
+font_style_menu.bind('<<MenuSelect>>', font_style_chooser)
 
-# TODO: Flexible font style 
+root.mainloop()
